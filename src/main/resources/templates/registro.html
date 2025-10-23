@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/registro.css}">
+
+    <title>registro</title>
+</head>
+<body>
+    <div class="CrearCuenta">
+        <h1>Registro</h1>
+        <form th:action="@{/registro}" th:object="${usuario}" method="post" onsubmit="return validarPassword()">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" th:field="*{nombre}" required>
+
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" th:field="*{apellido}" required>
+
+            <label for="email">Introduce un e-mail</label>
+            <input type="email" id="email" th:field="*{email}" required>
+
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" th:field="*{password}" required>
+
+            <label for="confirmPassword">Confirmar Contraseña</label>
+            <input type="password" id="confirmPassword" required>
+
+            <button type="submit">Crear Cuenta</button>
+        </form>
+    </div>
+    <script th:inline="javascript">
+/*<![CDATA[*/
+    let errorEmail = /*[[${errorEmail}]]*/ null;
+    if (errorEmail !== null) {
+        alert(errorEmail);
+    }
+/*]]>*/
+</script>
+
+    <!-- Mensaje de éxito opcional (si usas return a login?success) -->
+    <script th:if="${param.success}">
+        /*<![CDATA[*/
+        alert('Registro exitoso. Inicia sesión.');
+        /*]]>*/
+    </script>
+    <script>
+        function validarPassword() {
+            const password = document.getElementById("password").value;
+            const confirm = document.getElementById("confirmPassword").value;
+
+            if (password !== confirm) {
+                alert("Las contraseñas no coinciden.");
+                return false; 
+            } else {
+            return true; 
+            }
+        }
+
+    </script>
+</body>
+</html>

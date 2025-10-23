@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio | FortaGym</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img th:src="@{/img/logo_forta.png}" alt="Logo FortaGym" class="logo-img">
+                <a href="#">FORTAGYM</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Sobre Nosotros</a></li>
+                <li><a href="#">Cartilla Digital</a></li>
+                <li><a href="#">Ejercicios</a></li>
+                <li>
+                    <form th:action="@{/logout}" method="post" class="logout-form">
+                        <button type="submit">Cerrar sesión</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Bienvenido, </h1>
+        <p th:text="'Usuario autenticado: ' + ${nombreCompleto}"></p>
+    </main>
+
+     <!--Imagen promocional del gimnasio-->
+    <div class="promocional">
+    <img th:src="@{/img/promo_hallowen.jpg}" alt="Imagen promocional gimnasio" class="ad-image">
+    </div>
+
+    <h2 class="titulo-membresias">MEMBRESIAS</h2>
+    <div class="membresias">
+        <!--Membresias en boxes-->
+        <div class="membresia 1mes">
+            
+            <img th:src="@{/img/membresia1.jpg}" alt="Membresía 1 mes"> 
+            <div class="membresia-info">
+                <h3>Membresía 1 mes</h3>
+                <p>Acceso: Sala de musculación. Nutricionista</p>
+                <p>Precio: s/.100</p>
+            </div>
+
+        </div>
+
+        <div class="membresia 3meses">
+            <img th:src="@{/img/membresia2.jpg}" alt="Membresía 3 meses">
+                <div class="membresia-info">
+                <h3>Membresía 3 meses</h3>
+                <p>Acceso: Sala de musculación, cardio, clases de baile y funcional. Nutricionista</p>
+                <p>Precio: s/.210</p>
+            </div>
+
+        </div>
+
+        <div class="membresia 5meses">
+            <img th:src="@{/img/membresia3.jpg}" alt="Membresía 5 meses">
+                <div class="membresia-info">
+                <h3>Membresía 5 meses</h3>
+                <p>Acceso: Sala de musculación, cardio, clases de baile y funcional. Nutricionista</p>
+                <p>Precio: s/.300</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© FortaGym 2025</p>
+    </footer>
+</body>
+</html>

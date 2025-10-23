@@ -1,0 +1,95 @@
+/* === Estilos generales === */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('../img/ima_gim_!.jpg')no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+/* === Contenedor principal === */
+.CrearCuenta {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    width: 400px;
+    padding: 2rem 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    color: #fff;
+}
+h1 {
+    text-align: center;
+}
+.CrearCuenta label {
+    color: #fff;
+}
+
+.CrearCuenta:hover {
+    transform: translateY(-3px);
+}
+
+/* === Título del formulario === */
+.CrearCuenta h2 {
+    text-align: center;
+    color: #023e8a;
+    margin-bottom: 1.5rem;
+}
+
+/* === Estilos del formulario === */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 0.3rem;
+    color: #333;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1rem;
+}
+
+/* Efecto al enfocar campos */
+input:focus {
+    border-color: #00b4d8;
+    box-shadow: 0 0 6px rgba(0, 180, 216, 0.3);
+    outline: none;
+}
+
+/* === Botón === */
+button[type="submit"] {
+    background-color: #0077b6;
+    color: #fff;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+button[type="submit"]:hover {
+    background-color: #023e8a;
+    transform: scale(1.03);
+}
+
+/* === Adaptable a pantallas pequeñas === */
+@media (max-width: 480px) {
+    .CrearCuenta {
+        width: 90%;
+        padding: 1.5rem;
+    }
+}

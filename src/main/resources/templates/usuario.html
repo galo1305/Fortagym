@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/usuario.css">
+
+    <title>Usuario | FortaGym</title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#">FORTAGYM</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Sobre Nosotros</a></li>
+                <li><a href="#">Cartilla Digital</a></li>
+                <li><a href="#">Ejercicios</a></li>
+                <li>
+                    <form th:action="@{/logout}" method="post" class="logout-form">
+                        <button type="submit">Cerrar sesión</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="editarPerfil">
+        <div class ="usuario">
+            <!-- Foto actual -->
+            <img th:src="@{'/usuario/foto/' + ${usuario.id}}" 
+                class="perfil-foto" 
+                id="preview" 
+                alt="Foto de perfil"
+                onerror="this.src='/img/default-user.jpg'">
+
+            <!-- Formulario para subir nueva imagen -->
+            <form th:action="@{/usuario/foto}" method="post" enctype="multipart/form-data">
+                <label for="foto" class="custom-file-upload">Seleccionar imagen</label>
+                <input type="file" id="foto" name="foto" accept="image/png, image/jpeg" onchange="previewImage(event)">
+                <button type="submit">Guardar foto</button>
+
+                <p th:text="'Usuario autenticado: ' + ${nombreCompleto}"></p>
+                <p th:text="${usuario.email}"></p>
+            </form>
+        </div>
+        
+        <div class="cambioUsuario">
+            <form th:action="@{/usuario/cambio}" method="post" onsubmit="return validarPassword()">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" th:value="${usuario.nombre}" required>
+
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" name="apellido" th:value="${usuario.apellido}" required>
+
+                <label for="password">Nueva contraseña</label>
+                <input type="password" id="password" name="password" placeholder="Dejar vacío para no cambiar">
+
+                <label for="confirmPassword">Confirmar contraseña</label>
+                <input type="password" id="confirmPassword" placeholder="Repite la contraseña">
+
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+
+
+        <footer>
+        <p>© FortaGym 2025</p>
+    </footer>
+
+    <script>
+    function previewImage(event) {
+        const preview = document.getElementById('preview');
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function validarPassword() {
+        const pass = document.getElementById("password").value;
+        const confirm = document.getElementById("confirmPassword").value;
+        if (pass !== confirm) {
+            alert("Las contraseñas no coinciden.");
+            return false;
+        }
+        return true;
+    }
+
+</script>
+</body>
+</html>

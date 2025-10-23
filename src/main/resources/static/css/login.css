@@ -1,0 +1,109 @@
+/* === Fondo y fuente === */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('../img/ima_gim_!.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    margin: 0;
+
+    /* ✅ Centrar todo el contenedor */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* === Contenedor principal === */
+.login-container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    width: 360px;
+    padding: 2rem 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    text-align: center; /* centra el texto y el enlace */
+    transition: transform 0.3s ease;
+    color: #fff;
+}
+.login-container label {
+    color: #fff;
+}
+
+.login-container:hover {
+    transform: translateY(-3px);
+}
+
+/* === Título === */
+h1 {
+    color: black;
+    margin-bottom: 1.5rem;
+}
+
+/* === Formulario === */
+form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+label {
+    margin-bottom: 0.3rem;
+    color: #333;
+    font-weight: 600;
+}
+
+input[type="email"],
+input[type="password"] {
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+    border-color: #00b4d8;
+    box-shadow: 0 0 6px rgba(0, 180, 216, 0.3);
+    outline: none;
+}
+
+/* === Botón === */
+button {
+    background-color: #0077b6;
+    color: #fff;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+button:hover {
+    background-color: #023e8a;
+    transform: scale(1.03);
+}
+
+/* === Enlace de registro === */
+p {
+    margin-top: 1.2rem;
+}
+
+p a {
+    color: black;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+p a:hover {
+    color: #023e8a;
+}
+
+/* === Responsive === */
+@media (max-width: 480px) {
+    .login-container {
+        width: 90%;
+        padding: 1.5rem;
+    }
+}
