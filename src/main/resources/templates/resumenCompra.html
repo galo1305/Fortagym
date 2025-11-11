@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago | FortaGym</title>
+    <link rel="stylesheet" th:href="@{/css/resumenCompra.css}">
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <img th:src="@{/img/logo_forta.png}" alt="Logo FortaGym" class="logo-img">
+            <a th:href="@{/index}">FORTAGYM</a>
+        </div>
+        <ul class="nav-links">
+            <li><a th:href="@{/sobreNosotros}">Sobre Nosotros</a></li>
+            <li><a th:href="@{/cartilla/{id}(id=${#authentication.principal.id})}">Cartilla Digital</a></li>
+            <li><a th:href="@{/ejercicios}">Ejercicios</a></li>
+            <li class="user-menu">
+    <button class="user-btn">
+        <img th:src="@{/img/user-icon.png}" alt="Usuario" class="user-icon">
+        <span th:text="${#authentication.principal.username}">Usuario</span>
+        <i class="arrow-down"></i>
+    </button>
+    <ul class="dropdown">
+        <li><a th:href="@{/usuario}">Editar Perfil</a></li>
+        <li>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-btn">Cerrar sesión</button>
+            </form>
+        </li>
+    </ul>
+</li>
+        </ul>
+    </nav>
+</header>
+
+
+<div class="pago-container">
+    <h2>Completar Pago</h2>
+
+    <div class="card resumen">
+        <h3>Datos del cliente</h3>
+        <p><strong>Nombre:</strong> <span th:text="${usuario.nombre + ' ' + usuario.apellido}"></span></p>
+        <p><strong>Correo:</strong> <span th:text="${usuario.email}"></span></p>
+    </div>
+
+    <div class="card resumen">
+        <h3>Membresía seleccionada</h3>
+        <p><strong>Tipo:</strong> <span th:text="${membresia.tipo}"></span></p>
+        <p><strong>Duración:</strong> <span th:text="${membresia.duracionMeses}"></span> meses</p>
+        <p><strong>Precio:</strong> S/. <span th:text="${membresia.precio}"></span></p>
+    </div>
+
+    <form th:action="@{/pago/confirmar}" method="post" class="form-pago">
+        <input type="hidden" name="membresiaId" th:value="${membresia.id}">
+        <label>DNI:</label>
+        <input type="text" name="dni" maxlength="8" placeholder="Ingresa tu DNI" required>
+
+        <label>Método de pago:</label>
+        <select id="metodoPago" name="metodoPago" required onchange="mostrarOpciones()">
+            <option value="">Selecciona un método</option>
+            <option value="yape">Yape (QR)</option>
+            <option value="presencial">Pago presencial</option>
+        </select>
+
+        <!-- Sección QR Yape -->
+        <div id="yapeBox" class="metodo-box oculto">
+            <h3>Escanea el QR para pagar</h3>
+            <img th:src="@{/img/yape_qr.png}" alt="QR Yape" class="qr-img">
+            <p class="precio-yape">Monto a pagar: <strong>S/. <span th:text="${membresia.precio}"></span></strong></p>
+            <p class="nota">Después de pagar, mostrará mensaje de confirmación y verificación manual.</p>
+        </div>
+
+        <!-- Sección presencial -->
+        <div id="presencialBox" class="metodo-box oculto">
+            <h3>Pago presencial</h3>
+            <p>Acércate al gimnasio y presenta tu DNI para completar el pago.</p>
+        </div>
+
+        <button type="submit" class="btn-confirmar">Confirmar compra</button>
+    </form>
+
+    <a class="volver" th:href="@{/index}">← Volver al inicio</a>
+</div>
+
+<footer>
+    <p>© FortaGym 2025</p>
+</footer>
+
+
+<script>
+function mostrarOpciones() {
+    const select = document.getElementById("metodoPago");
+    const yapeBox = document.getElementById("yapeBox");
+    const presencialBox = document.getElementById("presencialBox");
+
+    yapeBox.classList.add("oculto");
+    presencialBox.classList.add("oculto");
+
+    if (select.value === "yape") {
+        yapeBox.classList.remove("oculto");
+    }
+
+    if (select.value === "presencial") {
+        presencialBox.classList.remove("oculto");
+    }
+}
+</script>
+
+</body>
+</html>

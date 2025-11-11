@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicios de Brazos</title>
+    <link rel="stylesheet" th:href="@{/css/ejercicios.css}" />
+  </head>
+  <body>
+    <!-- ENCABEZADO -->
+     <nav class="navbar">
+                <div class="logo">
+                    <img th:src="@{/img/logo_forta.png}" alt="Logo FortaGym" class="logo-img">
+                    <a href="#">FORTAGYM</a>
+                </div>
+                <ul class="nav-links">
+                    <li><a th:href="@{/index}" class="boton-volver">Inicio</a></li>
+                    <li><a th:href="@{/sobreNosotros}">Sobre Nosotros</a></li>
+                    <li><a th:href="@{/cartilla/{id}(id=${#authentication.principal.id})}">Cartilla Digital</a></li>
+                    <li><a th:href="@{/ejercicios}">Ejercicios</a></li>
+                    <li class="user-menu">
+    <button class="user-btn">
+        <img th:src="@{/img/user-icon.png}" alt="Usuario" class="user-icon">
+        <span th:text="${#authentication.principal.username}">Usuario</span>
+        <i class="arrow-down"></i>
+    </button>
+    <ul class="dropdown">
+        <li><a th:href="@{/usuario}">Editar Perfil</a></li>
+        <li>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-btn">Cerrar sesión</button>
+            </form>
+        </li>
+    </ul>
+</li>
+                </ul>
+            </nav>
+        </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="contenido">
+      <section>
+        <h2>EJERCICIOS PARA TRÍCEPS</h2>
+        <div class="galeria">
+          <img th:src="@{/img/t1.png}" alt="Tríceps 1" />
+
+          <iframe
+            src="https://www.youtube.com/embed/BQw29zx721o?si=1Li9LcqcyV7DP8f7"
+            title="Ejercicio de tríceps"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+
+          <img th:src="@{/img/t2.jpg}" alt="Tríceps 2" />
+        </div>
+      </section>
+
+      <section>
+        <h2>EJERCICIOS PARA BÍCEPS</h2>
+        <div class="galeria">
+          <img th:src="@{/img/b1.png}" alt="Bíceps 1" />
+
+          <iframe
+            src="https://www.youtube.com/embed/7U4ADwctM-o?si=0ticzRXgHOVN1c55"
+            title="Ejercicio de bíceps"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+
+          <img th:src="@{/img/b2.png}" alt="Bíceps 2" />
+        </div>
+      </section>
+
+      <section>
+        <h2>EJERCICIOS PARA BRAZOS</h2>
+        <div class="galeria">
+          <img th:src="@{/img/br1.png}" alt="Brazos 1" />
+
+          <iframe
+            src="https://www.youtube.com/embed/7ZoiXZ_FzDk?si=5W5qwT7fWNDdMrds"
+            title="Ejercicio de brazos"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+
+          <img th:src="@{/img/br2.png}" alt="Brazos 2" />
+        </div>
+      </section>
+
+      <section>
+        <h2>EJERCICIOS PARA PECHO</h2>
+        <div class="galeria">
+          <img th:src="@{/img/p1.png}" alt="Pecho 1" />
+
+          <iframe
+            src="https://www.youtube.com/embed/aNXyDBfHP-w?si=Po2QzghqepLQbLBU"
+            title="Ejercicio de pecho"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+
+          <img th:src="@{/img/p2.png}" alt="Pecho 2" />
+        </div>
+      </section>
+
+      <section>
+        <h2>EJERCICIOS PARA ESPALDA</h2>
+        <div class="galeria">
+          <img th:src="@{/img/e1.png}" alt="Espalda 1" />
+
+          <iframe
+            src="https://www.youtube.com/embed/vnRxOFc76rs?si=IfOZYSP1E5hKBt8I"
+            title="Ejercicio de espalda"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+
+          <img th:src="@{/img/e2.png}" alt="Espalda 2" />
+        </div>
+      </section>
+
+      <section>
+        <h2>EJERCICIOS PARA CORE (Abdomen, Oblicuos, Zona Lumbar, Glúteos)</h2>
+        <div class="galeria">
+          <img th:src="@{/img/c1.png}" alt="Core 1" />
+
+          <iframe
+            src="https://www.youtube.com/embed/lhbrR9GFNSY?si=urnHNWQkXUhLg3y7"
+            title="Ejercicio de core"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+
+          <img th:src="@{/img/c2.png}" alt="Core 2" />
+        </div>
+      </section>
+
+      <section>
+        <h2>EJERCICIOS PARA PIERNAS</h2>
+        <div class="galeria">
+          <img th:src="@{/img/pi1.png}" alt="Piernas 1" />
+
+          <iframe
+            src="https://www.youtube.com/embed/-czd-qJFPF0?si=5oTujq0l7VZDspwg"
+            title="Ejercicio de piernas"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+
+          <img th:src="@{/img/pi2.png}" alt="Piernas 2" />
+        </div>
+      </section>
+
+      <div th:replace="fragments/consejo :: consejo"></div>
+    </main>
+    <footer>
+        <p>© FortaGym 2025</p>
+    </footer>
+  </body>
+</html>

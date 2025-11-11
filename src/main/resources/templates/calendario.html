@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio | FortaGym</title>
+    <link rel="stylesheet" th:href="@{/css/calendario.css}">
+</head>
+<body>
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img th:src="@{/img/logo_forta.png}" alt="Logo FortaGym" class="logo-img">
+                    <a th:href="@{/index}">FORTAGYM</a>
+                </div>
+                <ul class="nav-links">
+                    <li><a th:href="@{/sobreNosotros}">Sobre Nosotros</a></li>
+                    <li class="user-menu">
+    <button class="user-btn">
+        <img th:src="@{/img/user-icon.png}" alt="Usuario" class="user-icon">
+        <span th:text="${#authentication.principal.username}">Usuario</span>
+        <i class="arrow-down"></i>
+    </button>
+    <ul class="dropdown">
+        <li><a th:href="@{/usuario}">Editar Perfil</a></li>
+        <li>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-btn">Cerrar sesión</button>
+            </form>
+        </li>
+    </ul>
+</li>
+                </ul>
+            </nav>
+        </header>
+
+    <main class="calendario-container">
+        <div class="calendario-card">
+            <img th:src="@{/img/calendario.png}" alt="Calendario de Actividades" class="calendario-img">
+            <div class="btn-container">
+    <a th:href="@{/dashboard_nutricionista}" class="btn-custom">Volver al inicio</a>
+</div>
+        </div>
+        
+
+    </main>
+
+    <footer>
+        <p>© FortaGym 2025</p>
+    </footer>
+</body>
+</html>

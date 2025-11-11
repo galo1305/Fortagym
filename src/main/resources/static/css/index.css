@@ -5,16 +5,16 @@
     box-sizing: border-box;
 }
 
-/* === Estilo general === */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f6f6f6;
     color: #222;
 }
 
-/* === Navbar === */
+
 .navbar {
-    background-color: #d4a017; /* Amarillo mostaza */
+    background-color: #d4a017;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,10 +22,10 @@ body {
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* === Logo === */
+
 .logo {
-    display: flex;             /* Alinea imagen y texto en línea */
-    align-items: center;       /* Centra verticalmente */
+    display: flex;
+    align-items: center;
 }
 
 .logo a {
@@ -52,7 +52,6 @@ body {
     margin: 0;
 }
 
-/* === Enlaces === */
 .nav-links a {
     color: #fff;
     text-decoration: none;
@@ -64,7 +63,6 @@ body {
     color: #222;
 }
 
-/* === Botón logout === */
 .logout-form button {
     background-color: #fff;
     color: #d4a017;
@@ -82,13 +80,105 @@ body {
     color: #fff;
 }
 
-/* === Contenido principal === */
+
 main {
     padding: 2rem;
     text-align: center;
 }
 
-/* === Footer === */
+/* === Menú desplegable de usuario === */
+.user-menu {
+    position: relative;
+    list-style: none;
+}
+
+.user-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.user-btn:hover {
+    color: #222;
+}
+
+.user-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #fff;
+    object-fit: cover;
+}
+
+.arrow-down {
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 4px;
+    transform: rotate(45deg);
+    transition: transform 0.3s ease;
+}
+
+.user-menu:hover .arrow-down {
+    transform: rotate(225deg);
+}
+
+/* Dropdown */
+.dropdown {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding: 0.5rem 0;
+    min-width: 180px;
+    display: none;
+    flex-direction: column;
+    z-index: 999;
+}
+
+.user-menu:hover .dropdown {
+    display: flex;
+}
+
+.dropdown li {
+    list-style: none;
+    text-align: left;
+}
+
+.dropdown a,
+.dropdown button {
+    width: 100%;
+    padding: 10px 20px;
+    color: #222;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.dropdown a:hover,
+.dropdown button:hover {
+    background-color: #d4a017;
+    color: #fff;
+    border-radius: 6px;
+}
+
+.logout-btn {
+    font-weight: 600;
+}
+
 footer {
     text-align: center;
     padding: 1rem;
@@ -122,33 +212,256 @@ footer {
     text-align: center;
 }
 
-.membresias {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
-    padding: 2rem;
-
-}
-
-.membresia {
-    background-color: #d6d6d6;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    width: 30rem;
+.contenedor-opciones {
     text-align: center;
-    object-fit: contain;
+    margin-bottom: 20px;
 }
 
+.tipos {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;            /* tamaño llamativo pero sobrio */
+  font-weight: 600;           /* un poco grueso para destacar */
+  color: #222;                /* color oscuro elegante */
+  text-align: center;         /* centrado */
+  margin: 60px 0 20px 0;      /* buen espacio arriba (por las imágenes) */
+  letter-spacing: 1px;        /* separación leve entre letras */
+  text-transform: uppercase;  /* da un toque de fuerza al título */
+  position: relative;
+}
+
+.tipos::after {
+  content: "";
+  display: block;
+  width: 60px;               /* pequeña línea decorativa */
+  height: 3px;
+  background-color: #007bff; /* azul elegante */
+  margin: 10px auto 0 auto;  /* centrada bajo el texto */
+  border-radius: 2px;
+}
+
+
+/* === SECCIÓN DE MEMBRESÍAS === */
+#membresias {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 40px;
+    background: #fafafa;
+}
+
+/* === TARJETAS === */
+.membresia {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.membresia:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* === IMÁGENES === */
 .membresia img {
     width: 100%;
-    height: auto;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 3px solid #f0c419;
 }
-.titulo-membresias {
+
+/* === INFORMACIÓN DE LA TARJETA === */
+.membresia-info {
+    padding: 20px;
     text-align: center;
-    font-size: 2rem;
+}
+
+.membresia-info h3 {
+    font-size: 1.3rem;
+    color: #222;
+    margin-bottom: 10px;
     font-weight: bold;
-    margin-top: 2rem;
-    color: #333;
+}
+
+.membresia-info p {
+    color: #555;
+    font-size: 0.95rem;
+    margin: 8px 0;
+}
+
+/* === BOTÓN COMPRAR === */
+.boton-comprar {
+    display: inline-block;
+    margin-top: 12px;
+    background: #f0c419;
+    color: #000;
+    text-decoration: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.boton-comprar:hover {
+    background: #d4a017;
+    color: #fff;
+}
+
+#pasesDiarios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 40px;
+    background: #fafafa;
+}
+
+/* === TARJETAS DE PASE DIARIO === */
+.pase {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pase:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.pase img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 3px solid #f0c419;
+}
+
+.pase-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.pase-info h3 {
+    font-size: 1.3rem;
+    color: #222;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.pase-info p {
+    color: #555;
+    font-size: 0.95rem;
+    margin: 8px 0;
+}
+
+
+.fitness-cloud {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.cloud-text {
+    background: white;
+    padding: 18px 28px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #222;
+    box-shadow:
+        0px 4px 12px rgba(0, 0, 0, 0.15),
+        0px 0px 25px rgba(0, 255, 136, 0.4);
+    font-family: "Poppins", sans-serif;
+    position: relative;
+    max-width: 80%;
+    text-align: center;
+}
+
+/* Burbujitas para la nube */
+.cloud-text::before,
+.cloud-text::after {
+    content: "";
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0px 0px 15px rgba(0, 255, 136, 0.3);
+}
+
+.cloud-text::before {
+    width: 22px;
+    height: 22px;
+    bottom: -12px;
+    left: 30px;
+}
+
+.cloud-text::after {
+    width: 32px;
+    height: 32px;
+    bottom: -22px;
+    left: 55px;
+}
+/* ===== Sección Extra (Preguntas y Testimonios) ===== */
+.extras {
+  background: linear-gradient(135deg, #141E30, #243B55);
+  color: #fff;
+  text-align: center;
+  padding: 60px 20px;
+  margin-top: 50px;
+  border-radius: 25px 25px 0 0;
+}
+
+.extras h2 {
+  font-size: 2.2em;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+.extras-contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.extra-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  padding: 25px;
+  border-radius: 20px;
+  width: 300px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+}
+
+.extra-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.extra-icono {
+  font-size: 2.5em;
+  margin-bottom: 15px;
+}
+
+.extra-card h3 {
+  font-size: 1.4em;
+  margin-bottom: 10px;
+}
+
+.extra-card p {
+  font-size: 0.95em;
+  line-height: 1.4;
+  color: #e2e2e2;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .extra-card {
+    width: 100%;
+    max-width: 340px;
+  }
 }

@@ -11,24 +11,41 @@ public class Usuario {
     private Long id;
 
     private String nombre;
-    private String apellido; // 👈 NUEVO CAMPO
+    private String apellido; 
     @Column(unique = true)
     private String email;
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
+
     @Lob
     private byte[] fotoPerfil;
+
+    @OneToOne(mappedBy = "usuario")
+    private Nutricion nutricion;
+
+
+    public Nutricion getNutricion() {
+        return nutricion;
+    }
+
+    public void setNutricion(Nutricion nutricion) {
+        this.nutricion = nutricion;
+    }
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido, String email, String password) {
-        this.nombre = nombre;
-        this.apellido = apellido; // 👈 NUEVO
-        this.email = email;
-        this.password = password;
-        this.fotoPerfil = fotoPerfil;
-    }
+    public Usuario(String nombre, String apellido, String email, String password, Rol rol, byte[] fotoPerfil) {
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.email = email;
+    this.password = password;
+    this.rol = rol;
+    this.fotoPerfil = fotoPerfil;
+}
+
 
     // Getters y Setters
     public Long getId() {
@@ -70,6 +87,9 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Rol getRol() { return rol; }
+    public void setRol(Rol rol) { this.rol = rol; }
 
     public byte[] getFotoPerfil(){
         return fotoPerfil;

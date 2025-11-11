@@ -10,7 +10,7 @@ body {
     margin: 0;
 }
 
-/* === Contenedor principal === */
+
 .CrearCuenta {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
@@ -32,14 +32,14 @@ h1 {
     transform: translateY(-3px);
 }
 
-/* === Título del formulario === */
+
 .CrearCuenta h2 {
     text-align: center;
     color: #023e8a;
     margin-bottom: 1.5rem;
 }
 
-/* === Estilos del formulario === */
+
 form {
     display: flex;
     flex-direction: column;
@@ -62,14 +62,13 @@ input[type="password"] {
     font-size: 1rem;
 }
 
-/* Efecto al enfocar campos */
+
 input:focus {
     border-color: #00b4d8;
     box-shadow: 0 0 6px rgba(0, 180, 216, 0.3);
     outline: none;
 }
 
-/* === Botón === */
 button[type="submit"] {
     background-color: #0077b6;
     color: #fff;
@@ -86,7 +85,7 @@ button[type="submit"]:hover {
     transform: scale(1.03);
 }
 
-/* === Adaptable a pantallas pequeñas === */
+
 @media (max-width: 480px) {
     .CrearCuenta {
         width: 90%;

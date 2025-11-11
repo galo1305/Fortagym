@@ -16,28 +16,37 @@
                 <a href="#">FORTAGYM</a>
             </div>
             <ul class="nav-links">
-                <li><a href="#">Sobre Nosotros</a></li>
-                <li><a href="#">Cartilla Digital</a></li>
-                <li><a href="#">Ejercicios</a></li>
-                <li>
-                    <form th:action="@{/logout}" method="post" class="logout-form">
-                        <button type="submit">Cerrar sesión</button>
-                    </form>
-                </li>
+                <li><a th:href="@{/sobreNosotros}">Sobre Nosotros</a></li>
+                <li><a th:href="@{/cartilla/{id}(id=${#authentication.principal.id})}">Cartilla Digital</a></li>
+                <li><a th:href="@{/ejercicios}">Ejercicios</a></li>
+                <li class="user-menu">
+    <button class="user-btn">
+        <img th:src="@{/img/user-icon.png}" alt="Usuario" class="user-icon">
+        <span th:text="${#authentication.principal.username}">Usuario</span>
+        <i class="arrow-down"></i>
+    </button>
+    <ul class="dropdown">
+        <li><a th:href="@{/usuario}">Editar Perfil</a></li>
+        <li>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-btn">Cerrar sesión</button>
+            </form>
+        </li>
+    </ul>
+</li>
             </ul>
         </nav>
     </header>
 
     <div class="editarPerfil">
         <div class ="usuario">
-            <!-- Foto actual -->
             <img th:src="@{'/usuario/foto/' + ${usuario.id}}" 
                 class="perfil-foto" 
                 id="preview" 
                 alt="Foto de perfil"
                 onerror="this.src='/img/default-user.jpg'">
 
-            <!-- Formulario para subir nueva imagen -->
+
             <form th:action="@{/usuario/foto}" method="post" enctype="multipart/form-data">
                 <label for="foto" class="custom-file-upload">Seleccionar imagen</label>
                 <input type="file" id="foto" name="foto" accept="image/png, image/jpeg" onchange="previewImage(event)">
@@ -95,6 +104,7 @@
         }
         return true;
     }
+    <div th:replace="fragments/consejo :: *"></div>
 
 </script>
 </body>

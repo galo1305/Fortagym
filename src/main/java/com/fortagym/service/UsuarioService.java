@@ -1,11 +1,13 @@
 package com.fortagym.service;
 
+import com.fortagym.model.Rol;
 import com.fortagym.model.Usuario;
 import com.fortagym.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -14,7 +16,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder; // usa el bean definido en SecurityConfig
+    private BCryptPasswordEncoder passwordEncoder;
 
     public Usuario registrar(Usuario usuario) {
         if (usuarioRepository.findByEmail(usuario.getEmail()) != null) {
@@ -22,6 +24,7 @@ public class UsuarioService {
         }
 
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        usuario.setRol(Rol.USUARIO);
 
         try {
             return usuarioRepository.save(usuario);
@@ -45,4 +48,13 @@ public class UsuarioService {
     public void guardar(Usuario usuario) {
         usuarioRepository.save(usuario);
     }
+
+    // 🔹 NUEVO MÉTODO
+    public List<Usuario> obtenerTodos() {
+        return usuarioRepository.findAll();
+    }
+    public Usuario findById(Long id) {
+    return usuarioRepository.findById(id).orElse(null);
+}
+
 }

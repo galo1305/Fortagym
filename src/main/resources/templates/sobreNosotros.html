@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/sobreNosotros.css}">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img th:src="@{/img/logo_forta.png}" alt="Logo FortaGym" class="logo-img">
+                <a th:href="@{/index}">FORTAGYM</a>
+            </div>
+            <ul class="nav-links">
+                <li><a th:href="@{/sobreNosotros}">Sobre Nosotros</a></li>
+                <li><a th:href="@{/cartilla/{id}(id=${#authentication.principal.id})}">Cartilla Digital</a></li>
+                <li><a th:href="@{/ejercicios}">Ejercicios</a></li>
+                <li class="user-menu">
+    <button class="user-btn">
+        <img th:src="@{/img/user-icon.png}" alt="Usuario" class="user-icon">
+        <span th:text="${#authentication.principal.username}">Usuario</span>
+        <i class="arrow-down"></i>
+    </button>
+    <ul class="dropdown">
+        <li><a th:href="@{/usuario}">Editar Perfil</a></li>
+        <li>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-btn">Cerrar sesión</button>
+            </form>
+        </li>
+    </ul>
+</li>
+            </ul>
+        </nav>
+    </header>
+    <h1>La experiencia forta</h1>
+    <div class="contenedor">
+        <div class="caja">
+            <img th:src="@{/img/1.jpg}" alt="Sala musculación">
+            <p>LA SALA CUENTA CON UN AMBIENTE AMPLIO, VENTILADO E ILUMINADO, 
+            CON ESPEJOS DE PARED. DISPONE DE MÁQUINAS DE MUSCULACIÓN, 
+            UNA ZONA DE PESOS LIBRES Y UN DISEÑO PENSADO PARA EL ORDEN Y LA SEGURIDAD.</p>
+        </div>
+
+        <div class="caja">
+            <img th:src="@{/img/2.jpg}" alt="Sala de baile">
+            <p>LA SALA DE BAILE ES UN ESPACIO AMPLIO Y DINÁMICO, DISEÑADO PARA CLASES 
+            GRUPALES COMO ZUMBA Y RITMOS LATINOS, CON ESPEJOS, SONIDO POTENTE Y BUENA VENTILACIÓN.</p>
+        </div>
+
+    </div>
+
+    <div class="contenedor2">
+     <div class="caja">
+            <img th:src="@{/img/3.png}" alt="Sala funcional">
+            <p>LA SALA FUNCIONAL ESTÁ DISEÑADA PARA TRABAJO INTEGRAL DEL CUERPO, 
+            CON EQUIPOS COMO CUERDAS, KETTLEBELLS Y TRX, EN UN ESPACIO LIBRE Y ANTIDESLIZANTE.</p>
+        </div>
+    </div>
+
+    <div th:replace="fragments/consejo :: consejo"></div>
+    <footer>
+        <p>© FortaGym 2025</p>
+    </footer>
+</body>
+</html>

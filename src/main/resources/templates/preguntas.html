@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/preguntas.css}">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img th:src="@{/img/logo_forta.png}" alt="Logo FortaGym" class="logo-img">
+                <a th:href="@{/index}">FORTAGYM</a>
+            </div>
+            <ul class="nav-links">
+                <li><a th:href="@{/sobreNosotros}">Sobre Nosotros</a></li>
+                <li><a th:href="@{/cartilla/{id}(id=${#authentication.principal.id})}">Cartilla Digita</a></li>
+                <li><a th:href="@{/ejercicios}">Ejercicios</a></li>
+                <li class="user-menu">
+    <button class="user-btn">
+        <img th:src="@{/img/user-icon.png}" alt="Usuario" class="user-icon">
+        <span th:text="${#authentication.principal.username}">Usuario</span>
+        <i class="arrow-down"></i>
+    </button>
+    <ul class="dropdown">
+        <li><a th:href="@{/usuario}">Editar Perfil</a></li>
+        <li>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-btn">Cerrar sesión</button>
+            </form>
+        </li>
+    </ul>
+</li>
+            </ul>
+        </nav>
+    </header>
+    <h1>TUS PREGUNTAS, NUESTRAS RESPUESTAS</h1>
+    <div class="faq-container">
+        <div class="faq-item">
+            <div class="faq-question">¿Puedo pausar mi membresía si no puedo asistir?</div>
+            <div class="faq-answer">Sí, puedes solicitar una suspensión temporal por motivos personales o médicos, por un máximo de 30 días.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Puedo cambiar mi tipo de membresía?</div>
+            <div class="faq-answer">No, una vez realizado el pago no hay derecho a cambio ya que se le explica al cliente sobre la membresía antes de contratar.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Hay clases para principiantes?</div>
+            <div class="faq-answer">Durante las primeras semanas, el entrenador se encargará de guiarte en tus sesiones de entrenamiento, resolviendo cualquier duda que tengas.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Ofrecen entrenamiento personalizado?</div>
+            <div class="faq-answer">Sí, ofrecemos entrenamientos personalizados que cada entrenador diseña según tus necesidades. El precio varía dependiendo del tiempo y tipo de plan.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Cuál es el horario del gimnasio?</div>
+            <div class="faq-answer">Abrimos de lunes a sábado de 6:00 a.m. a 10:00 p.m. Los domingos no hay atención.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Puedo asistir a cualquier hora con mi membresía?</div>
+            <div class="faq-answer">Sí, todas las membresías te permiten ingresar durante el horario de atención general.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿El gimnasio cuenta con duchas y casilleros?</div>
+            <div class="faq-answer">Sí, disponemos de duchas y casilleros cómodos para todos nuestros miembros.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">¿Tienen área de nutrición o asesoramiento alimenticio?</div>
+            <div class="faq-answer">Sí, contamos con un área de nutrición que brinda análisis corporal y una dieta básica para complementar tu entrenamiento.</div>
+        </div>
+    </div>
+    <script>
+        // Despliegue de preguntas y respuestas
+        const questions = document.querySelectorAll('.faq-question');
+
+        questions.forEach(q => {
+            q.addEventListener('click', () => {
+                const parent = q.parentElement;
+                // Cierra los demás antes de abrir otro
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    if (item !== parent) item.classList.remove('active');
+                });
+                parent.classList.toggle('active');
+            });
+        });
+    </script>
+    <div th:replace="fragments/consejo :: consejo"></div>
+    <footer>
+        <p>© FortaGym 2025</p>
+    </footer>
+</body>
+</html>

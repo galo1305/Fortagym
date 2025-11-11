@@ -1,0 +1,305 @@
+/* === Reset === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f6f6f6;
+  color: #222;
+}
+
+/* === NAVBAR === */
+.navbar {
+  background-color: #d4a017;
+  display: flex;
+  justify-content: space-between; /* separa logo e items */
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.logo-img {
+  width: 45px;
+  height: auto;
+  margin-right: 10px;
+}
+
+/* === LINKS === */
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 0;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #222;
+}
+
+/* === BOTÓN CERRAR SESIÓN === */
+.logout-form button {
+  background-color: #fff;
+  color: #d4a017;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-form button:hover {
+  background-color: #222;
+  color: #fff;
+}
+
+
+/* --- Contenido principal (centrado y espaciado) --- */
+main.site-container {
+    padding: 1.75rem 0;
+    text-align: center;
+}
+
+/* Título */
+h1 {
+    margin-bottom: 1.6rem;
+    color: #343a40;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.06);
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+/* Tabla centrada y responsiva */
+.table-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    /* centrado horizontal y separación abajo */
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Encabezados y celdas */
+.table-container th,
+.table-container td {
+    padding: 0.9rem 0.75rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table-container thead th {
+    background-color: #343a40;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+/* Filas */
+.table-container tbody tr:nth-child(even) {
+    background: #fbfbfb;
+}
+
+/* Formularios y botones dentro de la tabla */
+.table-container select {
+    border-radius: 8px;
+    padding: 0.35rem 0.5rem;
+    border: 1px solid #e6e6e6;
+}
+
+.table-container .btn {
+    border-radius: 8px;
+    padding: 0.4rem 0.7rem;
+    font-weight: 600;
+}
+
+/* Botones acción */
+form[action*="cambiar-rol"] .btn,
+form[action*="cambiar-rol"] button {
+    background: #0d6efd;
+    color: #fff;
+    border: none;
+}
+
+form[action*="eliminar"] .btn,
+form[action*="eliminar"] button {
+    background: #dc3545;
+    color: #fff;
+    border: none;
+}
+
+.user-menu {
+    position: relative;
+    list-style: none;
+}
+
+.user-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.user-btn:hover {
+    color: #222;
+}
+
+.user-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #fff;
+    object-fit: cover;
+}
+
+.arrow-down {
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 4px;
+    transform: rotate(45deg);
+    transition: transform 0.3s ease;
+}
+
+.user-menu:hover .arrow-down {
+    transform: rotate(225deg);
+}
+
+/* Dropdown */
+.dropdown {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding: 0.5rem 0;
+    min-width: 180px;
+    display: none;
+    flex-direction: column;
+    z-index: 999;
+}
+
+.user-menu:hover .dropdown {
+    display: flex;
+}
+
+.dropdown li {
+    list-style: none;
+    text-align: left;
+}
+
+.dropdown a,
+.dropdown button {
+    width: 100%;
+    padding: 10px 20px;
+    color: #222;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.dropdown a:hover,
+.dropdown button:hover {
+    background-color: #d4a017;
+    color: #fff;
+    border-radius: 6px;
+}
+
+.logout-btn {
+    font-weight: 600;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .nav-links {
+        gap: 0.6rem;
+    }
+
+    .logo a {
+        font-size: 1.1rem;
+    }
+
+    .table-container {
+        padding: 0 0.6rem;
+    }
+}
+
+@media (max-width: 700px) {
+
+    /* Nav vertical en móvil */
+    .navbar .site-container {
+        flex-direction: column;
+        gap: .8rem;
+        align-items: center;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 0.6rem;
+        width: 100%;
+        align-items: center;
+    }
+
+    .nav-links a {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        padding: .6rem 0;
+    }
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.3);
+}

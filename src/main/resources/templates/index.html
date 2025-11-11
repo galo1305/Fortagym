@@ -7,69 +7,101 @@
     <link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <img th:src="@{/img/logo_forta.png}" alt="Logo FortaGym" class="logo-img">
-                <a href="#">FORTAGYM</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#">Sobre Nosotros</a></li>
-                <li><a href="#">Cartilla Digital</a></li>
-                <li><a href="#">Ejercicios</a></li>
-                <li>
-                    <form th:action="@{/logout}" method="post" class="logout-form">
-                        <button type="submit">Cerrar sesión</button>
-                    </form>
-                </li>
-            </ul>
-        </nav>
-    </header>
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img th:src="@{/img/logo_forta.png}" alt="Logo FortaGym" class="logo-img">
+                    <a th:href="@{/index}">FORTAGYM</a>
+                </div>
+                <ul class="nav-links">
+                    <li><a th:href="@{/sobreNosotros}">Sobre Nosotros</a></li>
+                    <li><a th:href="@{/cartilla/{id}(id=${#authentication.principal.id})}">Cartilla Digital</a></li>
+                    <li><a th:href="@{/ejercicios}">Ejercicios</a></li>
+                    <li><a th:href="@{/horarios}">Horarios</a></li>
+                    <li class="user-menu">
+    <button class="user-btn">
+        <img th:src="@{/img/user-icon.png}" alt="Usuario" class="user-icon">
+        <span th:text="${#authentication.principal.username}">Usuario</span>
+        <i class="arrow-down"></i>
+    </button>
+    <ul class="dropdown">
+        <li><a th:href="@{/usuario}">Editar Perfil</a></li>
+        <li>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-btn">Cerrar sesión</button>
+            </form>
+        </li>
+    </ul>
+</li>
+                </ul>
+            </nav>
+        </header>
 
     <main>
         <h1>Bienvenido, </h1>
         <p th:text="'Usuario autenticado: ' + ${nombreCompleto}"></p>
     </main>
 
-     <!--Imagen promocional del gimnasio-->
-    <div class="promocional">
-    <img th:src="@{/img/promo_hallowen.jpg}" alt="Imagen promocional gimnasio" class="ad-image">
+    <!--Imagen promocional del gimnasio-->
+    <div class="promocional" th:if="${promocion != null}">
+    <img th:src="${promocion.imagen}" alt="Imagen promocional gimnasio" class="ad-image">
     </div>
 
-    <h2 class="titulo-membresias">MEMBRESIAS</h2>
-    <div class="membresias">
-        <!--Membresias en boxes-->
-        <div class="membresia 1mes">
-            
-            <img th:src="@{/img/membresia1.jpg}" alt="Membresía 1 mes"> 
-            <div class="membresia-info">
-                <h3>Membresía 1 mes</h3>
-                <p>Acceso: Sala de musculación. Nutricionista</p>
-                <p>Precio: s/.100</p>
-            </div>
+    <div class="tipos">Membresias</div>
 
+    <div id="membresias" class="seccion activa">
+    <div class="membresia" th:each="m : ${membresias}">
+        <img th:src="@{${m.imagenUrl}}" th:alt="${m.tipo}">
+        <div class="membresia-info">
+            <h3 th:text="${m.tipo}"></h3>
+            <p th:text="'Duración: ' + ${m.duracionMeses} + ' meses'"></p>
+            <p th:text="${m.descripcion}"></p>
+            <p th:text="'Precio: S/.' + ${m.precio}"></p>
+            <a th:href="@{/resumenCompra/{id}(id=${m.id})}" class="boton-comprar">Comprar</a>
         </div>
+    </div>
+</div>
 
-        <div class="membresia 3meses">
-            <img th:src="@{/img/membresia2.jpg}" alt="Membresía 3 meses">
-                <div class="membresia-info">
-                <h3>Membresía 3 meses</h3>
-                <p>Acceso: Sala de musculación, cardio, clases de baile y funcional. Nutricionista</p>
-                <p>Precio: s/.210</p>
-            </div>
+    <div class="tipos">Pase Diario</div>
 
+<!-- Sección PASE DIARIO -->
+    <div id="pasesDiarios" class="seccion activa">
+    <div class="pase" th:each="p : ${pasesDiarios}">
+        <img th:src="@{${p.imagenUrl}}" th:alt="${p.duracion}">
+        <div class="pase-info">
+            <h3 th:text="'Duración: ' + ${p.duracion} + ' días'"></h3>
+            <p th:text="'Acceso: ' + ${p.acceso}"></p>
+            <p th:text="'Precio: S/.' + ${p.precio}"></p>
+            <a th:href="@{/resumenPase/{id}(id=${p.id})}" class="boton-comprar">Comprar</a>
         </div>
+    </div>
+    </div>
+    <script>
+    function mostrarSeccion(id, boton) {
+        // Ocultar todas las secciones
+        document.querySelectorAll('.seccion').forEach(sec => sec.classList.remove('activa'));
+        // Quitar el estilo activo de todos los botones
+        document.querySelectorAll('.boton-opcion').forEach(btn => btn.classList.remove('activo'));
+        // Mostrar la sección seleccionada
+        document.getElementById(id).classList.add('activa');
+        // Marcar el botón activo
+        boton.classList.add('activo');
+    }
+</script>
+    <div th:replace="fragments/consejo :: consejo"></div>
 
-        <div class="membresia 5meses">
-            <img th:src="@{/img/membresia3.jpg}" alt="Membresía 5 meses">
-                <div class="membresia-info">
-                <h3>Membresía 5 meses</h3>
-                <p>Acceso: Sala de musculación, cardio, clases de baile y funcional. Nutricionista</p>
-                <p>Precio: s/.300</p>
-            </div>
-        </div>
 
     </div>
+<section class="extras">
+    <h2>Explora Más</h2>
+    <div class="extras-contenedor">
+        <a th:href="@{/preguntas}" class="extra-card preguntas">
+            <div class="extra-icono">❓</div>
+            <h3>Preguntas Frecuentes</h3>
+            <p>Resuelve tus dudas sobre membresías, horarios y servicios.</p>
+        </a>
+    </div>
+</section>
 
     <footer>
         <p>© FortaGym 2025</p>

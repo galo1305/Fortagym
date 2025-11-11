@@ -6,13 +6,12 @@ body {
     height: 100vh;
     margin: 0;
 
-    /* ✅ Centrar todo el contenedor */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* === Contenedor principal === */
+
 .login-container {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
@@ -20,7 +19,7 @@ body {
     padding: 2rem 2.5rem;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    text-align: center; /* centra el texto y el enlace */
+    text-align: center; 
     transition: transform 0.3s ease;
     color: #fff;
 }
@@ -32,13 +31,13 @@ body {
     transform: translateY(-3px);
 }
 
-/* === Título === */
+
 h1 {
     color: black;
     margin-bottom: 1.5rem;
 }
 
-/* === Formulario === */
+
 form {
     display: flex;
     flex-direction: column;

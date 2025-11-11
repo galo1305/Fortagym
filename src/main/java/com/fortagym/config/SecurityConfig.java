@@ -7,14 +7,21 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Configuration
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
+    private final AuthenticationSuccessHandler successHandler;
 
-    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+    /*@Autowired*/
+    
+    public SecurityConfig(CustomUserDetailsService userDetailsService,
+                          AuthenticationSuccessHandler successHandler) {
         this.userDetailsService = userDetailsService;
+        this.successHandler = successHandler;
     }
 
     @Bean
@@ -33,24 +40,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/registro", "/login", "/login/**", "/css/**", "/js/**", "/img/**").permitAll()
-
-                .anyRequest().authenticated()
-            )
-            .formLogin(login -> login
-                .loginPage("/login")
-                .defaultSuccessUrl("/index", true)
-                .permitAll()
-            )
-            .logout(logout -> logout
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/registro", "/login", "/css/**", "/js/**", "/img/**","/nutricion/usuarios","/nutricion/nuevo/{id}", "/rutina/usuarios","/rutina/nueva/{id}",
+            "/rutina/guardar","/cartilla/{id}", "/resumenCompra/{id}","/resumenPase/{id}").permitAll()
+            .requestMatchers("/admin/**").hasRole("ADMIN")
+            .requestMatchers("/rutina/**").hasRole("ENTRENADOR")
+            .requestMatchers("/nutricion/**").hasRole("NUTRICIONISTA")
+            .anyRequest().authenticated()
+        )
+        .formLogin(login -> login
+            .loginPage("/login")
+            .successHandler(successHandler)
+        )
+        .logout(logout -> logout
             .logoutUrl("/logout")
-            .logoutSuccessUrl("/login?logout") // 👈 vuelve a tu login con mensaje
+            .logoutSuccessUrl("/login?logout")
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
             .permitAll()
-            );
+        );
 
         return http.build();
     }

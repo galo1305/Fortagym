@@ -11,17 +11,33 @@ import java.util.Collections;
 public class CustomUserDetails implements UserDetails {
     private final Usuario usuario;
 
+    public Long getId() {
+    return usuario.getId(); // Asumiendo que internamente usas un objeto Usuario
+    }
+
+
     public CustomUserDetails(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public String getNombre() {
+        return usuario.getNombre();
+    }
+
+    public String getApellido() {
+        return usuario.getApellido();
     }
 
     public String getNombreCompleto() {
         return usuario.getNombre() + " " + usuario.getApellido();
     }
+    public Usuario getUsuario() {
+    return usuario;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+    return Collections.singletonList(() -> "ROLE_" + usuario.getRol().name());
     }
 
     @Override

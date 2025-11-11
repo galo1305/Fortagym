@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cambiar Horario</title>
+</head>
+<body>
+<h1>Cambiar Imagen del Horario</h1>
+
+<form th:action="@{/admin/horario/cambiar}" method="post" enctype="multipart/form-data">
+    <label>Nombre del horario:</label>
+    <input type="text" name="nombre" required><br><br>
+
+    <label>Seleccionar imagen:</label>
+    <input type="file" name="imagen" accept="image/*" required><br><br>
+
+    <button type="submit">Guardar</button>
+</form>
+
+<div th:if="${horarioActual != null}">
+    <h3>Horario actual:</h3>
+    <img th:src="@{'/horario/imagen/' + ${horarioActual.id}}" alt="Horario actual" style="max-width:400px;">
+</div>
+
+</body>
+</html>

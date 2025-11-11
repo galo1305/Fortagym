@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Promociones | FortaGym</title>
+    <link rel="stylesheet" th:href="@{/css/admin_promociones.css}">
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <img th:src="@{/img/logo_forta.png}" alt="Logo FortaGym" class="logo-img">
+            <a th:href="@{/admin}">Panel Admin</a>
+        </div>
+    </nav>
+</header>
+
+<main class="promociones-container">
+    <h1 class="titulo-principal">Gestión de Promociones</h1>
+
+    <section class="formulario-promocion">
+        <h2>Subir nueva promoción</h2>
+        <form th:action="@{/admin/promociones/subir}" method="post" enctype="multipart/form-data" class="form-card">
+            <div class="campo">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+
+            <div class="campo">
+                <label for="imagen">Imagen:</label>
+                <input type="file" id="imagen" name="imagen" accept="image/*" required>
+            </div>
+
+            <button type="submit" class="btn-primario">Subir promoción</button>
+        </form>
+    </section>
+
+    <section class="lista-promociones">
+        <h2>Promociones existentes</h2>
+
+        <div class="promociones-grid" th:if="${promociones != null}">
+            <div class="promocion-card" th:each="p : ${promociones}">
+                <img th:src="${p.imagen}" alt="Promoción" class="promo-img">
+                <div class="promo-info">
+                    <h3 th:text="${p.nombre}"></h3>
+                    <form th:action="@{'/admin/promociones/eliminar/' + ${p.id}}" method="post">
+                        <button type="submit" class="btn-eliminar"
+                                onclick="return confirm('¿Eliminar promoción?')">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>© FortaGym 2025</p>
+</footer>
+
+</body>
+</html>
