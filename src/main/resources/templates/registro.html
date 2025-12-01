@@ -54,7 +54,35 @@
             return true; 
             }
         }
+            function soloLetras(texto) {
+        const regex = /^[a-zA-ZÀ-ÿ\s]+$/; 
+        return regex.test(texto);
+    }
 
+    function validarPassword() {
+        const nombre = document.getElementById("nombre").value.trim();
+        const apellido = document.getElementById("apellido").value.trim();
+        const password = document.getElementById("password").value;
+        const confirm = document.getElementById("confirmPassword").value;
+
+        // 🔹 Validar solo letras
+        if (!soloLetras(nombre)) {
+            alert("El nombre solo puede contener letras.");
+            return false;
+        }
+        if (!soloLetras(apellido)) {
+            alert("El apellido solo puede contener letras.");
+            return false;
+        }
+
+        // 🔹 Validar contraseñas iguales
+        if (password !== confirm) {
+            alert("Las contraseñas no coinciden.");
+            return false;
+        }
+
+        return true;
+    }
     </script>
 </body>
 </html>

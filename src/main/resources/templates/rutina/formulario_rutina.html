@@ -8,46 +8,40 @@
 </head>
 <body class="bg-light">
   <header>
-            <nav class="navbar">
-                <div class="logo">
-                    <img th:src="@{/img/logo_forta.png}" alt="Logo FortaGym" class="logo-img">
-                    <a th:href="@{/index}">FORTAGYM</a>
-                </div>
-                <ul class="nav-links">
-                    <li class="user-menu">
-    <button class="user-btn">
-        <img th:src="@{/img/user-icon.png}" alt="Usuario" class="user-icon">
-        <span th:text="${#authentication.principal.username}">Usuario</span>
-        <i class="arrow-down"></i>
-    </button>
-    <ul class="dropdown">
-        <li><a th:href="@{/usuario}">Editar Perfil</a></li>
-        <li class="user-menu">
-    <button class="user-btn">
-        <img th:src="@{/img/user-icon.png}" alt="Usuario" class="user-icon">
-        <span th:text="${#authentication.principal.username}">Usuario</span>
-        <i class="arrow-down"></i>
-    </button>
-    <ul class="dropdown">
-        <li><a th:href="@{/usuario}">Editar Perfil</a></li>
-        <li>
-            <form th:action="@{/logout}" method="post">
-                <button type="submit" class="logout-btn">Cerrar sesión</button>
-            </form>
-        </li>
-    </ul>
-</li>
+  <nav class="navbar">
+    <div class="logo">
+      <img th:src="@{/img/logo_forta.png}" alt="Logo FortaGym" class="logo-img">
+      <a th:href="@{/index}">FORTAGYM</a>
+    </div>
 
+    <ul class="nav-links">
+      <li><a th:href="@{/sobreNosotros}">Sobre Nosotros</a></li>
+
+      <!-- 🔹 Menú de usuario CORRECTO -->
+      <li class="user-menu">
+        <button class="user-btn">
+          <img th:src="@{/img/user-icon.png}" alt="Usuario" class="user-icon">
+          <span th:text="${#authentication.principal.username}">Usuario</span>
+          <i class="arrow-down"></i>
+        </button>
+
+        <ul class="dropdown">
+          <li><a th:href="@{/usuario}">Editar Perfil</a></li>
+          <li>
+            <form th:action="@{/logout}" method="post">
+              <button type="submit" class="logout-btn">Cerrar sesión</button>
+            </form>
+          </li>
+        </ul>
+      </li>
     </ul>
-</li>
-                </ul>
-            </nav>
-        </header>
+  </nav>
+</header>
 
 <div class="container">
   <h3 class="mb-4 text-center">Asignar Rutina a <span th:text="${usuario.nombre}"></span></h3>
 
- <form th:action="@{/rutina/guardar}" th:object="${rutina}" method="post" class="card p-4 shadow-sm">
+ <form th:action="@{/rutina/guardar}" th:object="${rutina}" method="post" class="card p-4 shadow-sm" onsubmit="return validarFormulario()">
   <input type="hidden" name="usuarioId" th:value="${usuario.id}"/>
 
   <div class="mb-3">
@@ -83,18 +77,105 @@
 <button type="button" class="btn btn-outline-primary mb-3" onclick="agregarFila()">+ Agregar ejercicio</button>
 
 <script>
-function agregarFila() {
-  document.getElementById("tablaEjercicios").insertAdjacentHTML(
-    'beforeend',
-    `<tr>
-      <td><input name="ejercicio" class="form-control"></td>
-      <td><input name="seriesReps" class="form-control"></td>
-      <td><input name="descanso" class="form-control"></td>
-      <td><input name="dias" class="form-control"></td>
-      <td><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">X</button></td>
-    </tr>`
-  );
+
+(function() {
+    const userMenu = document.querySelector('.user-menu');
+    if (!userMenu) return;
+
+    const btn = userMenu.querySelector('.user-btn');
+
+    // Alternar al hacer click en el botón
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      userMenu.classList.toggle('open');
+      // darle foco al primer elemento del menú (mejora accesibilidad)
+      const first = userMenu.querySelector('.dropdown a, .dropdown button, .dropdown input');
+      if (userMenu.classList.contains('open') && first) first.focus();
+    });
+
+    // Cerrar al hacer click fuera
+    document.addEventListener('click', function() {
+      userMenu.classList.remove('open');
+    });
+
+    // Evitar que clics dentro del dropdown cierren (por ejemplo en el form)
+    const dropdown = userMenu.querySelector('.dropdown');
+    if (dropdown) {
+      dropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    }
+
+    // Soporte teclado: ESC para cerrar, Enter/Space para abrir cuando el botón está enfocado
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        userMenu.classList.remove('open');
+      }
+    });
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        userMenu.classList.toggle('open');
+      }
+    });
+  })();
+  function validarFormulario() {
+    const filas = document.querySelectorAll("#tablaEjercicios tr");
+    let valido = true;
+
+    filas.forEach(fila => {
+        const ejercicio = fila.querySelector("input[name='ejercicio']");
+        const series = fila.querySelector("input[name='seriesReps']");
+        const descanso = fila.querySelector("input[name='descanso']");
+        const dias = fila.querySelector("input[name='dias']");
+
+        // Reset estilos previos
+        [ejercicio, series, descanso, dias].forEach(c => {
+            c.classList.remove("is-invalid");
+        });
+
+        // ✔ SOLO TEXTO para ejercicio
+        const regexEjercicio = /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]{3,100}$/;
+
+        // ✔ EXACTO como tu @Pattern del backend
+        const regexSeries = /^[0-9]{1,2}x[0-9]{1,3}$/;
+
+        // ✔ EXACTO como tu @Pattern backend: 60s, 90 seg, 2 min
+        const regexDescanso = /^[0-9]{1,3}\s?(seg|s|min)$/;
+
+        // ✔ TEXTO de 3 a 50 caracteres
+        const regexDias = /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]{3,50}$/;
+
+
+        if (!regexEjercicio.test(ejercicio.value.trim())) {
+            ejercicio.classList.add("is-invalid");
+            valido = false;
+        }
+
+        if (!regexSeries.test(series.value.trim())) {
+            series.classList.add("is-invalid");
+            valido = false;
+        }
+
+        if (!regexDescanso.test(descanso.value.trim())) {
+            descanso.classList.add("is-invalid");
+            valido = false;
+        }
+
+        if (!regexDias.test(dias.value.trim())) {
+            dias.classList.add("is-invalid");
+            valido = false;
+        }
+
+    });
+
+    if (!valido) {
+        alert("⚠ Algunos campos no cumplen el formato requerido.\nPor favor corrígelos antes de guardar.");
+    }
+
+    return valido;
 }
+
 </script>
 
 

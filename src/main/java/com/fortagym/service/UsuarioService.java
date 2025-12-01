@@ -49,12 +49,21 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    // 🔹 NUEVO MÉTODO
     public List<Usuario> obtenerTodos() {
         return usuarioRepository.findAll();
     }
-    public Usuario findById(Long id) {
-    return usuarioRepository.findById(id).orElse(null);
-}
 
+    public Usuario findById(Long id) {
+        return usuarioRepository.findById(id).orElse(null);
+    }
+
+    public void actualizarPassword(Usuario usuario, String nuevaPassword) {
+        usuario.setPassword(passwordEncoder.encode(nuevaPassword));
+        usuarioRepository.save(usuario);
+    }
+
+    // ⭐ NUEVO MÉTODO: Solo usuarios con rol USUARIO
+    public List<Usuario> obtenerSoloUsuarios() {
+        return usuarioRepository.findByRol(Rol.USUARIO);
+    }
 }

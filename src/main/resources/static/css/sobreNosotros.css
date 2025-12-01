@@ -170,96 +170,72 @@ h1 {
     from { opacity: 1; transform: scale(1); }
     to { opacity: 0; transform: scale(1.05); }
 }
+/* === Menú desplegable de usuario === */
 .user-menu {
-    position: relative;
-    list-style: none;
+  position: relative;
 }
 
+/* Botón del usuario */
 .user-btn {
-    background: none;
-    border: none;
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 1rem;
-    transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: .25rem .5rem;
+  font: inherit;
 }
 
-.user-btn:hover {
-    color: #222;
+/* El contenedor desplegable */
+.user-menu .dropdown {
+  display: none;                 /* oculto por defecto */
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #fff;
+  color: #222;
+  min-width: 200px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  z-index: 40;
+  padding: 0.5rem 0;
 }
 
-.user-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background-color: #fff;
-    object-fit: cover;
+/* Items del dropdown */
+.user-menu .dropdown li {
+  list-style: none;
+}
+.user-menu .dropdown li a,
+.user-menu .dropdown li form {
+  display: block;
+  padding: 0.6rem 1rem;
+  text-decoration: none;
+  color: inherit;
 }
 
-.arrow-down {
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 4px;
-    transform: rotate(45deg);
-    transition: transform 0.3s ease;
+/* Hover en items del dropdown */
+.user-menu .dropdown li a:hover,
+.user-menu .dropdown li button:hover {
+  background: #f2f2f2;
 }
 
-.user-menu:hover .arrow-down {
-    transform: rotate(225deg);
+/* Clase que muestra el dropdown al hacer click */
+.user-menu.open .dropdown {
+  display: block;
 }
 
-/* Dropdown */
-.dropdown {
-    position: absolute;
-    top: 120%;
-    right: 0;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    padding: 0.5rem 0;
-    min-width: 180px;
-    display: none;
-    flex-direction: column;
-    z-index: 999;
-}
-
-.user-menu:hover .dropdown {
-    display: flex;
-}
-
-.dropdown li {
-    list-style: none;
-    text-align: left;
-}
-
-.dropdown a,
-.dropdown button {
-    width: 100%;
-    padding: 10px 20px;
-    color: #222;
-    background: none;
-    border: none;
-    text-align: left;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.dropdown a:hover,
-.dropdown button:hover {
-    background-color: #d4a017;
-    color: #fff;
-    border-radius: 6px;
-}
-
+/* Ajuste pequeño para el botón de cerrar sesión */
 .logout-btn {
-    font-weight: 600;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
 }
 
 .fitness-cloud {

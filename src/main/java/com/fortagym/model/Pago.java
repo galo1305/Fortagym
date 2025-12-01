@@ -1,17 +1,9 @@
 package com.fortagym.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "pago")
@@ -21,30 +13,43 @@ public class Pago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20)
-    private String metodoPago; // "yape" o "presencial"
+    @NotBlank(message = "El método de pago es obligatorio")
+    @Pattern(regexp = "tarjeta|presencial", flags = Pattern.Flag.CASE_INSENSITIVE, message = "El método de pago debe ser 'tarjeta' o 'presencial'")
+    @Column(length = 20, nullable = false)
+    private String metodoPago;
 
+    @NotBlank(message = "El DNI es obligatorio")
+    @Pattern(regexp = "\\d{8}", message = "El DNI debe tener exactamente 8 dígitos")
+    @Column(length = 8, nullable = false)
     private String dni;
 
+    @NotNull(message = "El monto no puede estar vacío")
+    @Positive(message = "El monto debe ser mayor a 0")
+    @Column(nullable = false)
     private Double monto;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaPago;
+    @Column(name = "fecha_pago", nullable = false)
+    private LocalDateTime fechaPago;
 
-    @Column(length = 20)
-    private String estado; // "pendiente", "pagado", "por_verificar"
+    @NotBlank(message = "El estado del pago es obligatorio")
+    @Pattern(regexp = "pendiente|verificado|pagado", flags = Pattern.Flag.CASE_INSENSITIVE, message = "El estado debe ser pendiente, verificado o pagado")
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @Column(length = 20, nullable = false)
+    private String estado;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "membresia_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "membresia_id", nullable = false)
     private Membresia membresia;
 
     public Pago() {
+        this.fechaPago = LocalDateTime.now();
     }
 
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -77,11 +82,11 @@ public class Pago {
         this.monto = monto;
     }
 
-    public Date getFechaPago() {
+    public LocalDateTime getFechaPago() {
         return fechaPago;
     }
 
-    public void setFechaPago(java.util.Date fechaPago) {
+    public void setFechaPago(LocalDateTime fechaPago) {
         this.fechaPago = fechaPago;
     }
 
@@ -109,6 +114,4 @@ public class Pago {
         this.membresia = membresia;
     }
 
-    // Constructor vacío + getters y setters
-    
 }

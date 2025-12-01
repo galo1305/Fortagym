@@ -59,24 +59,73 @@ body {
 .nav-links a:hover {
     color: #222;
 }
-
-.logout-form button {
-    background-color: #fff;
-    color: #d4a017;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+/* === Menú desplegable de usuario === */
+.user-menu {
+  position: relative;
 }
 
-.logout-form button:hover {
-    background-color: #222;
-    color: #fff;
+/* Botón del usuario */
+.user-btn {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: .25rem .5rem;
+  font: inherit;
 }
 
+/* El contenedor desplegable */
+.user-menu .dropdown {
+  display: none;                 /* oculto por defecto */
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #fff;
+  color: #222;
+  min-width: 200px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  z-index: 40;
+  padding: 0.5rem 0;
+}
+
+/* Items del dropdown */
+.user-menu .dropdown li {
+  list-style: none;
+}
+.user-menu .dropdown li a,
+.user-menu .dropdown li form {
+  display: block;
+  padding: 0.6rem 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Hover en items del dropdown */
+.user-menu .dropdown li a:hover,
+.user-menu .dropdown li button:hover {
+  background: #f2f2f2;
+}
+
+/* Clase que muestra el dropdown al hacer click */
+.user-menu.open .dropdown {
+  display: block;
+}
+
+/* Ajuste pequeño para el botón de cerrar sesión */
+.logout-btn {
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+}
 
 /* === CONTENEDOR PRINCIPAL === */
 .promociones-container {

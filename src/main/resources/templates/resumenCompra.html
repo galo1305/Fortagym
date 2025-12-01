@@ -1,114 +1,227 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pago | FortaGym</title>
-    <link rel="stylesheet" th:href="@{/css/resumenCompra.css}">
-</head>
-<body>
-
-<header>
-    <nav class="navbar">
+    <link rel="stylesheet" th:href="@{/css/resumenCompra.css}" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
         <div class="logo">
-            <img th:src="@{/img/logo_forta.png}" alt="Logo FortaGym" class="logo-img">
-            <a th:href="@{/index}">FORTAGYM</a>
+          <img
+            th:src="@{/img/logo_forta.png}"
+            alt="Logo FortaGym"
+            class="logo-img"/>
+          <a th:href="@{/index}">FORTAGYM</a>
         </div>
         <ul class="nav-links">
-            <li><a th:href="@{/sobreNosotros}">Sobre Nosotros</a></li>
-            <li><a th:href="@{/cartilla/{id}(id=${#authentication.principal.id})}">Cartilla Digital</a></li>
-            <li><a th:href="@{/ejercicios}">Ejercicios</a></li>
-            <li class="user-menu">
-    <button class="user-btn">
-        <img th:src="@{/img/user-icon.png}" alt="Usuario" class="user-icon">
-        <span th:text="${#authentication.principal.username}">Usuario</span>
-        <i class="arrow-down"></i>
-    </button>
-    <ul class="dropdown">
-        <li><a th:href="@{/usuario}">Editar Perfil</a></li>
-        <li>
-            <form th:action="@{/logout}" method="post">
-                <button type="submit" class="logout-btn">Cerrar sesión</button>
-            </form>
-        </li>
-    </ul>
-</li>
+          <li><a th:href="@{/sobreNosotros}">Sobre Nosotros</a></li>
+          <li>
+            <a th:href="@{/cartilla/{id}(id=${#authentication.principal.id})}"
+              >Cartilla Digital</a
+            >
+          </li>
+          <li><a th:href="@{/ejercicios}">Ejercicios</a></li>
+          <li class="user-menu">
+            <button class="user-btn">
+              <img
+                th:src="@{/img/user-icon.png}"
+                alt="Usuario"
+                class="user-icon"
+              />
+              <span th:text="${#authentication.principal.username}"
+                >Usuario</span
+              >
+              <i class="arrow-down"></i>
+            </button>
+            <ul class="dropdown">
+              <li><a th:href="@{/usuario}">Editar Perfil</a></li>
+              <li>
+                <form th:action="@{/logout}" method="post">
+                  <button type="submit" class="logout-btn">
+                    Cerrar sesión
+                  </button>
+                </form>
+              </li>
+            </ul>
+          </li>
         </ul>
-    </nav>
-</header>
+      </nav>
+    </header>
 
+    <div class="pago-container">
+      <h2>Completar Pago</h2>
 
-<div class="pago-container">
-    <h2>Completar Pago</h2>
-
-    <div class="card resumen">
+      <div class="card resumen">
         <h3>Datos del cliente</h3>
-        <p><strong>Nombre:</strong> <span th:text="${usuario.nombre + ' ' + usuario.apellido}"></span></p>
+        <p>
+          <strong>Nombre:</strong>
+          <span th:text="${usuario.nombre + ' ' + usuario.apellido}"></span>
+        </p>
         <p><strong>Correo:</strong> <span th:text="${usuario.email}"></span></p>
-    </div>
+      </div>
 
-    <div class="card resumen">
+      <div class="card resumen">
         <h3>Membresía seleccionada</h3>
         <p><strong>Tipo:</strong> <span th:text="${membresia.tipo}"></span></p>
-        <p><strong>Duración:</strong> <span th:text="${membresia.duracionMeses}"></span> meses</p>
-        <p><strong>Precio:</strong> S/. <span th:text="${membresia.precio}"></span></p>
-    </div>
+        <p>
+          <strong>Duración:</strong>
+          <span th:text="${membresia.duracionMeses}"></span> meses
+        </p>
+        <p>
+          <strong>Precio:</strong> S/.
+          <span th:text="${membresia.precio}"></span>
+        </p>
+        <p><strong>Horario de atencion: 6am-10pm</strong></p>
+      </div>
 
-    <form th:action="@{/pago/confirmar}" method="post" class="form-pago">
-        <input type="hidden" name="membresiaId" th:value="${membresia.id}">
+      <form th:action="@{/pago/confirmar}" method="post" class="form-pago">
+        <input type="hidden" name="membresiaId" th:value="${membresia.id}" />
         <label>DNI:</label>
-        <input type="text" name="dni" maxlength="8" placeholder="Ingresa tu DNI" required>
+        <input
+          type="text"
+          name="dni"
+          maxlength="8"
+          placeholder="Ingresa tu DNI"
+          required
+        />
 
+        <!--Seleccion Metodo de Pago -->
         <label>Método de pago:</label>
-        <select id="metodoPago" name="metodoPago" required onchange="mostrarOpciones()">
-            <option value="">Selecciona un método</option>
-            <option value="yape">Yape (QR)</option>
-            <option value="presencial">Pago presencial</option>
+        <select
+          id="metodoPago"
+          name="metodoPago"
+          required
+          onchange="mostrarOpciones()"
+        >
+          <option value="">Selecciona un método</option>
+          <option value="tarjeta">Tarjeta de Crédito</option>
+          <option value="presencial">Pago presencial</option>
         </select>
 
-        <!-- Sección QR Yape -->
-        <div id="yapeBox" class="metodo-box oculto">
-            <h3>Escanea el QR para pagar</h3>
-            <img th:src="@{/img/yape_qr.png}" alt="QR Yape" class="qr-img">
-            <p class="precio-yape">Monto a pagar: <strong>S/. <span th:text="${membresia.precio}"></span></strong></p>
-            <p class="nota">Después de pagar, mostrará mensaje de confirmación y verificación manual.</p>
+        <!-- Sección Tarjeta -->
+        <div id="tarjetaBox" class="metodo-box oculto">
+          <h3>Pago con Tarjeta</h3>
+
+          <label>Número de tarjeta:</label>
+          <input
+            type="text"
+            name="numeroTarjeta"
+            maxlength="16"
+            pattern="\d{16}"
+            placeholder="16 digitos"
+          />
+
+          <label>Fecha de expiración:</label>
+          <input type="month" name="expiracion" />
+
+          <label>CVV:</label>
+          <input
+            type="text"
+            name="cvv"
+            maxlength="3"
+            pattern="\d{3}"
+            placeholder="CVV"
+          />
+
+          <p class="nota">Tu información será procesada de forma segura.</p>
         </div>
 
         <!-- Sección presencial -->
         <div id="presencialBox" class="metodo-box oculto">
-            <h3>Pago presencial</h3>
-            <p>Acércate al gimnasio y presenta tu DNI para completar el pago.</p>
+          <h3>Pago presencial</h3>
+          <p>Acércate al gimnasio y presenta tu DNI para completar el pago.</p>
         </div>
 
         <button type="submit" class="btn-confirmar">Confirmar compra</button>
-    </form>
+      </form>
 
-    <a class="volver" th:href="@{/index}">← Volver al inicio</a>
-</div>
+      <a class="volver" th:href="@{/index}">← Volver al inicio</a>
+    </div>
 
-<footer>
-    <p>© FortaGym 2025</p>
-</footer>
+    <footer>
+      <p>© FortaGym 2025</p>
+    </footer>
 
+    <script>
+      function mostrarOpciones() {
+        const metodo = document.getElementById("metodoPago").value;
 
-<script>
-function mostrarOpciones() {
-    const select = document.getElementById("metodoPago");
-    const yapeBox = document.getElementById("yapeBox");
-    const presencialBox = document.getElementById("presencialBox");
+        const tarjetaBox = document.getElementById("tarjetaBox");
+        const presencialBox = document.getElementById("presencialBox");
 
-    yapeBox.classList.add("oculto");
-    presencialBox.classList.add("oculto");
+        const numero = document.getElementsByName("numeroTarjeta")[0];
+        const exp = document.getElementsByName("expiracion")[0];
+        const cvv = document.getElementsByName("cvv")[0];
 
-    if (select.value === "yape") {
-        yapeBox.classList.remove("oculto");
-    }
+        // Ocultar todo
+        tarjetaBox.classList.add("oculto");
+        presencialBox.classList.add("oculto");
 
-    if (select.value === "presencial") {
-        presencialBox.classList.remove("oculto");
-    }
-}
-</script>
+        // Desactivar required cuando no corresponde
+        numero.required = false;
+        exp.required = false;
+        cvv.required = false;
 
-</body>
+        if (metodo === "tarjeta") {
+          tarjetaBox.classList.remove("oculto");
+
+          // Activar validations SOLO si selecciona tarjeta
+          numero.required = true;
+          exp.required = true;
+          cvv.required = true;
+        }
+
+        if (metodo === "presencial") {
+          presencialBox.classList.remove("oculto");
+        }
+      }
+
+      (function () {
+        const userMenu = document.querySelector(".user-menu");
+        if (!userMenu) return;
+
+        const btn = userMenu.querySelector(".user-btn");
+
+        // Alternar al hacer click en el botón
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          userMenu.classList.toggle("open");
+          // darle foco al primer elemento del menú (mejora accesibilidad)
+          const first = userMenu.querySelector(
+            ".dropdown a, .dropdown button, .dropdown input"
+          );
+          if (userMenu.classList.contains("open") && first) first.focus();
+        });
+
+        // Cerrar al hacer click fuera
+        document.addEventListener("click", function () {
+          userMenu.classList.remove("open");
+        });
+
+        // Evitar que clics dentro del dropdown cierren (por ejemplo en el form)
+        const dropdown = userMenu.querySelector(".dropdown");
+        if (dropdown) {
+          dropdown.addEventListener("click", function (e) {
+            e.stopPropagation();
+          });
+        }
+
+        // Soporte teclado: ESC para cerrar, Enter/Space para abrir cuando el botón está enfocado
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") {
+            userMenu.classList.remove("open");
+          }
+        });
+        btn.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            userMenu.classList.toggle("open");
+          }
+        });
+      })();
+    </script>
+  </body>
 </html>

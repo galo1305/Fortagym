@@ -1,6 +1,7 @@
 package com.fortagym.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "membresias")
@@ -10,19 +11,31 @@ public class Membresia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El tipo de membresía es obligatorio")
+    @Size(max = 50, message = "El tipo no debe superar los 50 caracteres")
     private String tipo;
-    @Column(name="duracion_meses")
+
+    @Min(value = 1, message = "La duración mínima es de 1 mes")
+    @Max(value = 5, message = "La duración máxima es de 5 meses")
+    @Column(name = "duracion_meses")
     private int duracionMeses;
 
-    @Column(length = 500)
+    @NotBlank(message = "La descripción es obligatoria")
+    @Size(max = 500, message = "La descripción no debe superar 500 caracteres")
     private String descripcion;
 
+    @Positive(message = "El precio debe ser mayor a 0")
     private double precio;
-    @Column(name = "imagen_url")
-    private String imagenUrl; // 👈 URL o nombre del archivo de imagen
 
-    public Membresia() {
-    }
+    @Size(max = 255, message = "La URL de la imagen no debe superar los 255 caracteres")
+    @Pattern(
+        regexp = "^[\\w\\-./]+\\.(png|jpg|jpeg|webp)$",
+        message = "Debe ser una imagen válida (png, jpg, jpeg, webp)"
+    )
+    @Column(name = "imagen_url")
+    private String imagenUrl;
+
+    public Membresia() {}
 
     public Membresia(String tipo, int duracionMeses, String descripcion, double precio, String imagenUrl) {
         this.tipo = tipo;

@@ -37,14 +37,53 @@
     <main class="calendario-container">
         <div class="calendario-card">
             <img th:src="@{/img/calendario.png}" alt="Calendario de Actividades" class="calendario-img">
-            <div class="btn-container">
-    <a th:href="@{/dashboard_nutricionista}" class="btn-custom">Volver al inicio</a>
-</div>
         </div>
         
 
     </main>
+    <script>
+        (function() {
+    const userMenu = document.querySelector('.user-menu');
+    if (!userMenu) return;
 
+    const btn = userMenu.querySelector('.user-btn');
+
+    // Alternar al hacer click en el botón
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      userMenu.classList.toggle('open');
+      // darle foco al primer elemento del menú (mejora accesibilidad)
+      const first = userMenu.querySelector('.dropdown a, .dropdown button, .dropdown input');
+      if (userMenu.classList.contains('open') && first) first.focus();
+    });
+
+    // Cerrar al hacer click fuera
+    document.addEventListener('click', function() {
+      userMenu.classList.remove('open');
+    });
+
+    // Evitar que clics dentro del dropdown cierren (por ejemplo en el form)
+    const dropdown = userMenu.querySelector('.dropdown');
+    if (dropdown) {
+      dropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    }
+
+    // Soporte teclado: ESC para cerrar, Enter/Space para abrir cuando el botón está enfocado
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        userMenu.classList.remove('open');
+      }
+    });
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        userMenu.classList.toggle('open');
+      }
+    });
+  })();
+    </script>
     <footer>
         <p>© FortaGym 2025</p>
     </footer>

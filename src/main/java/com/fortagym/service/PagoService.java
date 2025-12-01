@@ -1,5 +1,6 @@
 package com.fortagym.service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class PagoService {
     }
 
     public Pago registrarPago(Pago pago) {
-        pago.setFechaPago(new Date());
+        pago.setFechaPago(LocalDateTime.now());
         return pagoRepository.save(pago);
     }
 

@@ -3,23 +3,33 @@ package com.fortagym.model;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
+@Table(name = "rutina")
 public class Rutina {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(max = 500)
     private String observaciones;
+
+    @NotBlank
+    @Size(max = 100)
     private String nombreEntrenador;
 
+    @NotNull
     @OneToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuario_id", nullable = false, unique = true)
     private Usuario usuario;
 
     @OneToMany(mappedBy = "rutina", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DetalleRutina> detalles= new ArrayList<>();
+    private List<DetalleRutina> detalles = new ArrayList<>();
 
     public Rutina() {}
 
@@ -27,6 +37,7 @@ public class Rutina {
         this.observaciones = observaciones;
         this.nombreEntrenador = nombreEntrenador;
         this.usuario = usuario;
+        this.detalles = new ArrayList<>();
     }
 
     // Getters y Setters

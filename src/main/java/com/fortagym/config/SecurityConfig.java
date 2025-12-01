@@ -3,14 +3,17 @@ package com.fortagym.config;
 import com.fortagym.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Configuration
+@Profile("!test")
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
@@ -38,29 +41,38 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/registro", "/login", "/css/**", "/js/**", "/img/**","/nutricion/usuarios","/nutricion/nuevo/{id}", "/rutina/usuarios","/rutina/nueva/{id}",
-            "/rutina/guardar","/cartilla/{id}", "/resumenCompra/{id}","/resumenPase/{id}").permitAll()
-            .requestMatchers("/admin/**").hasRole("ADMIN")
-            .requestMatchers("/rutina/**").hasRole("ENTRENADOR")
-            .requestMatchers("/nutricion/**").hasRole("NUTRICIONISTA")
-            .anyRequest().authenticated()
-        )
-        .formLogin(login -> login
-            .loginPage("/login")
-            .successHandler(successHandler)
-        )
-        .logout(logout -> logout
-            .logoutUrl("/logout")
-            .logoutSuccessUrl("/login?logout")
-            .invalidateHttpSession(true)
-            .deleteCookies("JSESSIONID")
-            .permitAll()
-        );
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+    .csrf(csrf -> csrf
+        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+    .authorizeHttpRequests(auth -> auth
+        .requestMatchers("/registro", "/login", "/css/**", "/js/**", "/img/**",
+                "/nutricion/usuarios","/nutricion/nuevo/{id}", "/rutina/usuarios",
+                "/rutina/nueva/{id}", "/rutina/guardar","/cartilla/{id}",
+                "/resumenCompra/{id}","/resumenPase/{id}").permitAll()
+        .requestMatchers("/admin/**").hasRole("ADMIN")
+        .requestMatchers("/rutina/**").hasRole("ENTRENADOR")
+        .requestMatchers("/nutricion/**").hasRole("NUTRICIONISTA")
+        .anyRequest().authenticated()
+    )
+    .formLogin(login -> login
+        .loginPage("/login")
+        .successHandler(successHandler)
+        .failureUrl("/login?error=true")   // ⬅️ IMPORTANTE
+        .permitAll()
+    )
+    .exceptionHandling(ex -> ex
+        .accessDeniedPage("/acceso-denegado")  // 👈 AQUI
+    )
+    .logout(logout -> logout
+        .logoutUrl("/logout")
+        .logoutSuccessUrl("/login?logout")
+        .invalidateHttpSession(true)
+        .deleteCookies("JSESSIONID")
+        .permitAll()
+    );
 
-        return http.build();
+    return http.build();
     }
+
 }

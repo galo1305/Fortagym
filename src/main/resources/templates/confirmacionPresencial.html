@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pago Presencial | FortaGym</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #111;
+            color: #fff;
+            padding-top: 40px;
+        }
+        .card-custom {
+            background-color: #1a1a1a;
+            border: 2px solid #f1c40f;
+            border-radius: 15px;
+            padding: 25px;
+        }
+        .btn-back {
+            background-color: #f1c40f;
+            color: #000;
+            font-weight: bold;
+        }
+        .btn-back:hover {
+            background-color: #d4ac0d;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container text-center">
+    <h1 class="mb-4">Pago Presencial Registrado</h1>
+
+    <div class="card card-custom mx-auto" style="max-width: 500px;">
+        <h3 class="mb-3">¡Te esperamos en el gimnasio!</h3>
+
+        <p class="fs-5" th:text="${mensaje}"></p>
+
+        <img src="/img/logo_forta.png" alt="FortaGym" class="img-fluid my-3" style="max-width: 180px;">
+
+        <p class="text-secondary">Lleva tu DNI para confirmar el pago.</p>
+
+        <a th:href="@{/index}" class="btn btn-back mt-3">Volver al inicio</a>
+    </div>
+</div>
+<script>
+    (function() {
+    const userMenu = document.querySelector('.user-menu');
+    if (!userMenu) return;
+
+    const btn = userMenu.querySelector('.user-btn');
+
+    // Alternar al hacer click en el botón
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      userMenu.classList.toggle('open');
+      // darle foco al primer elemento del menú (mejora accesibilidad)
+      const first = userMenu.querySelector('.dropdown a, .dropdown button, .dropdown input');
+      if (userMenu.classList.contains('open') && first) first.focus();
+    });
+
+    // Cerrar al hacer click fuera
+    document.addEventListener('click', function() {
+      userMenu.classList.remove('open');
+    });
+
+    // Evitar que clics dentro del dropdown cierren (por ejemplo en el form)
+    const dropdown = userMenu.querySelector('.dropdown');
+    if (dropdown) {
+      dropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    }
+
+    // Soporte teclado: ESC para cerrar, Enter/Space para abrir cuando el botón está enfocado
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        userMenu.classList.remove('open');
+      }
+    });
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        userMenu.classList.toggle('open');
+      }
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,23 +1,38 @@
 package com.fortagym.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
+@Table(name = "detalle_rutina")
 public class DetalleRutina {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre del ejercicio es obligatorio")
+    @Size(max = 100, message = "El nombre del ejercicio no debe superar 100 caracteres")
     private String ejercicio;
+
+    @NotBlank(message = "Las series y repeticiones son obligatorias")
+    @Pattern(regexp = "^[0-9]{1,2}x[0-9]{1,3}$", 
+             message = "Formato inválido. Ejemplo válido: 4x12")
     private String seriesReps;
+
+    @NotBlank(message = "El descanso es obligatorio")
+    @Pattern(regexp = "^[0-9]{1,3} ?(seg|s|min)$",
+             message = "Formato inválido. Ejemplos: 60s, 90 seg, 2 min")
     private String descanso;
-    private String dias; // Ejemplo: L-M-V o Lun/Mie/Vie
 
-    @ManyToOne
-    @JoinColumn(name = "rutina_id")
+    @NotBlank(message = "Debe especificar los días")
+    @Size(min = 3, max = 50, message = "Debe tener entre 3 y 50 caracteres")
+    private String dias;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rutina_id", nullable = false)
     private Rutina rutina;
-
     // Getters y setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

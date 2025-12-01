@@ -15,12 +15,13 @@
             </div>
             <ul class="nav-links">
                 <li><a th:href="@{/sobreNosotros}">Sobre Nosotros</a></li>
-                    <li><a th:href="@{/cartilla/{id}(id=${#authentication.principal.id})}">Cartilla Digita</a></li>
+                    <li><a th:href="@{/cartilla/{id}(id=${usuario.id})}">Cartilla Digital</a></li>
                 <li><a th:href="@{/ejercicios}">Ejercicios</a></li>
                 <li class="user-menu">
     <button class="user-btn">
         <img th:src="@{/img/user-icon.png}" alt="Usuario" class="user-icon">
-        <span th:text="${#authentication.principal.username}">Usuario</span>
+        <span th:text="${usuario.nombre}">Usuario</span>
+
         <i class="arrow-down"></i>
     </button>
     <ul class="dropdown">
@@ -102,7 +103,53 @@
     <div class="text-center mt-4">
         <a th:href="@{/index}" class="btn btn-back btn-lg">Volver</a>
     </div>
-
+    <a th:href="@{/cartilla/exportar/{id}(id=${usuario.id})}" 
+   class="btn btn-success">
+    📥 Descargar Excel
+</a>
 </div>
+<script>
+    (function() {
+    const userMenu = document.querySelector('.user-menu');
+    if (!userMenu) return;
+
+    const btn = userMenu.querySelector('.user-btn');
+
+    // Alternar al hacer click en el botón
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      userMenu.classList.toggle('open');
+      // darle foco al primer elemento del menú (mejora accesibilidad)
+      const first = userMenu.querySelector('.dropdown a, .dropdown button, .dropdown input');
+      if (userMenu.classList.contains('open') && first) first.focus();
+    });
+
+    // Cerrar al hacer click fuera
+    document.addEventListener('click', function() {
+      userMenu.classList.remove('open');
+    });
+
+    // Evitar que clics dentro del dropdown cierren (por ejemplo en el form)
+    const dropdown = userMenu.querySelector('.dropdown');
+    if (dropdown) {
+      dropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    }
+
+    // Soporte teclado: ESC para cerrar, Enter/Space para abrir cuando el botón está enfocado
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        userMenu.classList.remove('open');
+      }
+    });
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        userMenu.classList.toggle('open');
+      }
+    });
+  })();
+</script>
 </body>
 </html>
